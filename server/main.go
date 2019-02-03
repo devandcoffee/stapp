@@ -90,5 +90,5 @@ func main() {
 	r.HandleFunc("/api/tournaments/{id}", updateTournament).Methods("PUT")
 	r.HandleFunc("/api/tournaments/{id}", deleteTournament).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }

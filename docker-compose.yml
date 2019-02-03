@@ -2,9 +2,11 @@ version: "3"
 
 services:
   api:
-    build:
-      dockerfile: dockerfiles/api/Dockerfile
-      context: $GOPATH/src/github.com/devandcoffee/stapp
+    build: dockerfiles/api/Dockerfile
     container_name: stapp_api
+    hostname: api
     ports:
       - 8080:8080
+    volumes:
+      - ./:/go/src/github.com/devandcoffee/stapp/
+    command: go run server/main.go

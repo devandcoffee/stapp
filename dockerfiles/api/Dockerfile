@@ -2,8 +2,10 @@ FROM golang
 
 ENV GO111MODULE=on
 
-WORKDIR /go/src/github.com/devandcoffee/stapp/server
+WORKDIR /go/src/github.com/devandcoffee/stapp
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+ENV CGO_ENABLED=0
+
+RUN go mod download
