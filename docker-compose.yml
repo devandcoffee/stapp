@@ -9,4 +9,19 @@ services:
       - 8080:8080
     volumes:
       - ./:/go/src/github.com/devandcoffee/stapp/
-    command: go run server/main.go
+    command:
+      ["./wait-for-it.sh", "db:5432", "--", "go", "run", "server/main.go"]
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: stapp_db
+    hostname: db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: stadmin
+      POSTGRES_DB: stapp_dev
+    volumes:
+      - ~/.docker/stapp-data:/var/lib/postgresql/data
