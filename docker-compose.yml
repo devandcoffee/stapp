@@ -1,4 +1,4 @@
-version: "3"
+version: "3.3"
 
 services:
   api:
@@ -21,7 +21,7 @@ services:
     ports:
       - 5432:5432
     environment:
+      POSTGRES_DB: stdb
       POSTGRES_USER: stadmin
-      POSTGRES_DB: stapp_dev
     volumes:
       - ~/.docker/stapp-data:/var/lib/postgresql/data
