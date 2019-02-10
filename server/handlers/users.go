@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -45,17 +46,27 @@ func GetUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+
 	vars := mux.Vars(r)
 
 	id := vars["id"]
+
 	user := getUserOr404(db, id, w, r)
 	if user == nil {
 		return
 	}
 
+	log.Println(user)
+
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&user); err != nil {
 		respondError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	defer r.Body.Close()
+
+	if err := db.Save(&user).Error; err != nil {
+		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 	respondJSON(w, http.StatusOK, user)
@@ -76,6 +87,29 @@ func DeleteUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondJSON(w, http.StatusNoContent, nil)
+}
+
+func GetUserTournaments(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	user := getUserOr404(db, id, w, r)
+
+	if user == nil {
+		return
+	}
+
+	tournaments := []models.Tournament{}
+
+	log.Println("Getting tournaments")
+
+	if err := db.Model(&user).Association("Tournaments").Find(&tournaments).Error; err != nil {
+		respondError(w, http.StatusNotFound, err.Error())
+		return
+	}
+
+	respondJSON(w, http.StatusOK, tournaments)
 }
 
 func getUserOr404(db *gorm.DB, id string, w http.ResponseWriter, r *http.Request) *models.User {

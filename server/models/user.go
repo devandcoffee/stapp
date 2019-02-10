@@ -8,8 +8,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Birthday time.Time `json: birthday`
-	Email    string    `json: email`
-	Name     string    `json: name`
-	Address  string    `json: address`
+	Birthday    time.Time `json: birthday`
+	Email       string    `json: email`
+	Name        string    `json: name`
+	Address     string    `json: address`
+	Tournaments []Tournament
 }

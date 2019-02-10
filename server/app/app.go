@@ -52,6 +52,7 @@ func (a *App) setRouters() {
 	a.Get("/api/users/{id}", a.GetUser)
 	a.Put("/api/users/{id}", a.UpdateUser)
 	a.Delete("/api/users/{id}", a.DeleteUser)
+	a.Get("/api/users/{id}/tournaments", a.GetUserTournaments)
 }
 
 // Get handler
@@ -111,17 +112,22 @@ func (a *App) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // GetUser Handler for getting a tournament
 func (a *App) GetUser(w http.ResponseWriter, r *http.Request) {
-	handlers.CreateUser(a.DB, w, r)
+	handlers.GetUser(a.DB, w, r)
 }
 
 // UpdateUser Handler for updating a tournament
 func (a *App) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	handlers.CreateUser(a.DB, w, r)
+	handlers.UpdateUser(a.DB, w, r)
 }
 
 // DeleteUser Handler for deleting a tournament
 func (a *App) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	handlers.CreateUser(a.DB, w, r)
+	handlers.DeleteUser(a.DB, w, r)
+}
+
+// DeleteUser Handler for deleting a tournament
+func (a *App) GetUserTournaments(w http.ResponseWriter, r *http.Request) {
+	handlers.GetUserTournaments(a.DB, w, r)
 }
 
 // Run the app on it's router
