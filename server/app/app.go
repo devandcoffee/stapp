@@ -46,6 +46,12 @@ func (a *App) setRouters() {
 	a.Get("/api/tournaments/{id}", a.GetTournament)
 	a.Put("/api/tournaments/{id}", a.UpdateTournament)
 	a.Delete("/api/tournaments/{id}", a.DeleteTournament)
+
+	a.Get("/api/users", a.GetAllUsers)
+	a.Post("/api/users", a.CreateUser)
+	a.Get("/api/users/{id}", a.GetUser)
+	a.Put("/api/users/{id}", a.UpdateUser)
+	a.Delete("/api/users/{id}", a.DeleteUser)
 }
 
 // Get handler
@@ -91,6 +97,31 @@ func (a *App) UpdateTournament(w http.ResponseWriter, r *http.Request) {
 // DeleteTournament Handler for deleting a tournament
 func (a *App) DeleteTournament(w http.ResponseWriter, r *http.Request) {
 	handlers.CreateTournament(a.DB, w, r)
+}
+
+// GetAllUsers for getting all tournaments
+func (a *App) GetAllUsers(w http.ResponseWriter, r *http.Request) {
+	handlers.GetAllUsers(a.DB, w, r)
+}
+
+// CreateUser Handler for creating a tournament
+func (a *App) CreateUser(w http.ResponseWriter, r *http.Request) {
+	handlers.CreateUser(a.DB, w, r)
+}
+
+// GetUser Handler for getting a tournament
+func (a *App) GetUser(w http.ResponseWriter, r *http.Request) {
+	handlers.CreateUser(a.DB, w, r)
+}
+
+// UpdateUser Handler for updating a tournament
+func (a *App) UpdateUser(w http.ResponseWriter, r *http.Request) {
+	handlers.CreateUser(a.DB, w, r)
+}
+
+// DeleteUser Handler for deleting a tournament
+func (a *App) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	handlers.CreateUser(a.DB, w, r)
 }
 
 // Run the app on it's router

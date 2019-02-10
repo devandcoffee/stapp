@@ -14,8 +14,3 @@ type Tournament struct {
 	StartDate   time.Time `json: startDate`
 	EndDate     time.Time `json: endDate`
 }
-
-func DBMigrate(db *gorm.DB) *gorm.DB {
-	db.AutoMigrate(&Tournament{})
-	return db
-}
