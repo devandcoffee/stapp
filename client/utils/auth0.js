@@ -19,4 +19,5 @@ const getOptions = container => {
 
 export const authorize = () => getAuth0().authorize(getOptions());
 export const logout = () => getAuth0().logout({ returnTo: getBaseUrl() });
-export const parseHash = callback => getAuth0().parseHash(callback);
+export const parseHash = cb => getAuth0().parseHash(cb);
+export const getUserInfo = (token, cb) => getAuth0().client.userInfo(token, cb);
