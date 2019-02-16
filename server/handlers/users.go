@@ -18,6 +18,7 @@ func GetAllUsers(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+
 	user := models.User{}
 
 	decoder := json.NewDecoder(r.Body)
@@ -27,10 +28,18 @@ func CreateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	if err := db.Save(&user).Error; err != nil {
+	existingUser := getUserByExternalId(db, user.ExternalID, w, r)
+
+	if existingUser != nil {
+		respondJSON(w, http.StatusOK, existingUser)
+		return
+	}
+
+	if err := db.Create(&user).Error; err != nil {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	respondJSON(w, http.StatusCreated, user)
 }
 
@@ -46,7 +55,6 @@ func GetUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-
 	vars := mux.Vars(r)
 
 	id := vars["id"]
@@ -55,8 +63,6 @@ func UpdateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	if user == nil {
 		return
 	}
-
-	log.Println(user)
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&user); err != nil {
@@ -69,6 +75,7 @@ func UpdateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	respondJSON(w, http.StatusOK, user)
 }
 
@@ -90,7 +97,6 @@ func DeleteUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserTournaments(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -115,8 +121,18 @@ func GetUserTournaments(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func getUserOr404(db *gorm.DB, id string, w http.ResponseWriter, r *http.Request) *models.User {
 	user := models.User{}
 	parsedID, _ := strconv.Atoi(id)
-	if err := db.First(&user, parsedID).Error; err != nil {
+
+	if err := db.Find(&user, parsedID).Error; err != nil {
 		respondError(w, http.StatusNotFound, err.Error())
+		return nil
+	}
+	return &user
+}
+
+func getUserByExternalId(db *gorm.DB, externalId string, w http.ResponseWriter, r *http.Request) *models.User {
+	user := models.User{}
+
+	if err := db.Find(&user, "external_id = ?", externalId).Error; err != nil {
 		return nil
 	}
 	return &user

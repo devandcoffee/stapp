@@ -58,6 +58,11 @@ func UpdateTournament(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
+	if err := db.Save(&tournament).Error; err != nil {
+		respondError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 	respondJSON(w, http.StatusOK, tournament)
 }
 
