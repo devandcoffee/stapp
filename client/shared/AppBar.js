@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
+import Link from "next/link";
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -17,7 +19,7 @@ const styles = {
   }
 };
 
-const SimpleAppBar = ({ classes }) => (
+const SimpleAppBar = ({ classes, isLoggedIn }) => (
   <div className={classes.root}>
     <AppBar position="static" color="default">
       <Toolbar>
@@ -29,19 +31,31 @@ const SimpleAppBar = ({ classes }) => (
         >
           ST APP
         </Typography>
-        <Button>Tournaments</Button>
-        <Button>Profile</Button>
+        {isLoggedIn && <Button>Tournaments</Button>}
+        {isLoggedIn && <Button>Profile</Button>}
         <Button>About</Button>
-        <Button color="primary" variant="outlined">
-          Login
-        </Button>
+
+        {isLoggedIn ? (
+          <Button color="primary" variant="outlined">
+            <Link href="/logout">
+              <a>Logout</a>
+            </Link>
+          </Button>
+        ) : (
+          <Button color="primary" variant="outlined">
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   </div>
 );
 
 SimpleAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool
 };
 
 export default withStyles(styles)(SimpleAppBar);

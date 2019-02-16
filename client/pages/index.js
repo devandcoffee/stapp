@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Link from "next/link";
+import DefaultPage from "../hocs/DefaultPage";
 
 const styles = theme => ({
   root: {
@@ -14,21 +15,26 @@ const styles = theme => ({
   }
 });
 
-const Index = ({ classes }) => (
+const Index = ({ classes, isLoggedIn }) => (
   <div className={classes.root}>
     <Typography variant="h4" gutterBottom>
       Home Page
     </Typography>
     <Typography gutterBottom>
-      <Link href="/profile">
-        <a>Go to the profile page</a>
-      </Link>
+      {isLoggedIn ? (
+        <Link href="/profile">
+          <a>Go to the profile page</a>
+        </Link>
+      ) : (
+        <p>You are not logged in yet</p>
+      )}
     </Typography>
   </div>
 );
 
 Index.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool
 };
 
-export default withStyles(styles)(Index);
+export default DefaultPage(withStyles(styles)(Index));

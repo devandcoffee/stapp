@@ -18,10 +18,10 @@ const styles = theme => ({
   }
 });
 
-const Layout = ({ classes, children }) => {
+const Layout = ({ classes, children, isLoggedIn }) => {
   return (
     <React.Fragment>
-      <AppBar />
+      <AppBar isLoggedIn={isLoggedIn} />
       <main className={classes.layout}>{children}</main>
     </React.Fragment>
   );
@@ -29,7 +29,8 @@ const Layout = ({ classes, children }) => {
 
 Layout.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(Layout);

@@ -1,9 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import App, { Container } from "next/app";
 import Head from "next/head";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import JssProvider from "react-jss/lib/JssProvider";
-import getPageContext from "../src/getPageContext";
+import getPageContext from "../utils/getPageContext";
 
 import Layout from "../shared/Layout";
 
@@ -23,6 +25,7 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+    console.log(this.props);
     return (
       <Container>
         <Head>
@@ -39,7 +42,7 @@ class MyApp extends App {
             theme={this.pageContext.theme}
             sheetsManager={this.pageContext.sheetsManager}
           >
-            <Layout>
+            <Layout isLoggedIn={pageProps.isLoggedIn}>
               <Component pageContext={this.pageContext} {...pageProps} />
             </Layout>
           </MuiThemeProvider>
@@ -48,5 +51,13 @@ class MyApp extends App {
     );
   }
 }
+
+MyApp.propTypes = {
+  pageProps: PropTypes.shape({
+    currenUrl: PropTypes.string,
+    isLeggedIn: PropTypes.bool,
+    loggedInUser: PropTypes.object
+  })
+};
 
 export default MyApp;
