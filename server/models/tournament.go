@@ -9,9 +9,9 @@ import (
 
 type Tournament struct {
 	gorm.Model
-	Name        string    `json: "name"`
+	Name        string    `json: name`
 	Description string    `json: description`
 	StartDate   time.Time `json: startDate`
 	EndDate     time.Time `json: endDate`
-	UserID      uint      `json:userId`
+	UserID      uint      `json: userId`
 }

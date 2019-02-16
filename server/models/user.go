@@ -8,12 +8,12 @@ import (
 
 type User struct {
 	gorm.Model
-	ExternalID        string    `json: external_id`
-	ExternalUpdatedAt time.Time `json: external_updated_at`
+	ExternalID        string    `json: externalId`
+	ExternalUpdatedAt time.Time `json: externalUpdatedAt`
 	Email             string    `json: email`
-	EmailVerified     bool      `json: is_verified`
+	EmailVerified     bool      `json: isVeritied`
 	Name              string    `json: name`
 	Nickname          string    `json: nickname`
-	Picture           string    `json:picture`
+	Picture           string    `json: picture`
 	Tournaments       []Tournament
 }

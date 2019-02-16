@@ -11,6 +11,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+
+	"github.com/rs/cors"
 )
 
 // App has router and db instances
@@ -132,5 +134,24 @@ func (a *App) GetUserTournaments(w http.ResponseWriter, r *http.Request) {
 
 // Run the app on it's router
 func (a *App) Run(host string) {
-	log.Fatal(http.ListenAndServe(host, a.Router))
+
+	handler := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"}, //you service is available and allowed for this base url
+		AllowedMethods: []string{
+			http.MethodGet, //http methods for your app
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+			http.MethodOptions,
+			http.MethodHead,
+		},
+
+		AllowedHeaders: []string{
+			"*", //or you can your header key values which you are using in your application
+
+		},
+	}).Handler(a.Router)
+
+	log.Fatal(http.ListenAndServe(host, handler))
 }
