@@ -31,8 +31,20 @@ const SimpleAppBar = ({ classes, isLoggedIn }) => (
         >
           ST APP
         </Typography>
-        {isLoggedIn && <Button>Tournaments</Button>}
-        {isLoggedIn && <Button>Profile</Button>}
+        {isLoggedIn && (
+          <Button>
+            <Link href="/tournaments">
+              <a>Tournaments</a>
+            </Link>
+          </Button>
+        )}
+        {isLoggedIn && (
+          <Button>
+            <Link href="/profile">
+              <a>Profile</a>
+            </Link>
+          </Button>
+        )}
         <Button>About</Button>
 
         {isLoggedIn ? (

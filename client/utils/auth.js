@@ -50,3 +50,13 @@ export const getUserFromServerCookie = req => {
 export const getUserFromLocalCookie = () => {
   return Cookie.getJSON("user");
 };
+
+export const setLocalUser = userId => {
+  localStorage.setItem("userId", userId);
+};
+
+export const getUserId = () => localStorage.getItem("userId");
+
+export const removeLocalUser = () => {
+  localStorage.removeItem("userId");
+};
