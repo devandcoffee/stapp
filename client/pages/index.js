@@ -20,15 +20,14 @@ const Index = ({ classes, isLoggedIn }) => (
     <Typography variant="h4" gutterBottom>
       Home Page
     </Typography>
-    <Typography gutterBottom>
-      {isLoggedIn ? (
-        <Link href="/profile">
-          <a>Go to the profile page</a>
-        </Link>
-      ) : (
-        <p>You are not logged in yet</p>
-      )}
-    </Typography>
+
+    {isLoggedIn ? (
+      <Link href="/profile">
+        <a>Go to the profile page</a>
+      </Link>
+    ) : (
+      <Typography gutterBottom>You are not logged in yet</Typography>
+    )}
   </div>
 );
 

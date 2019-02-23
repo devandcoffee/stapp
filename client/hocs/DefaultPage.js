@@ -7,9 +7,16 @@ export default Page =>
       const loggedInUser = process.browser
         ? getUserFromLocalCookie()
         : getUserFromServerCookie(ctx.req);
-      const pageProps = Page.getInitialProps && Page.getInitialProps(ctx);
+      if (Page.getInitialProps) {
+        const result = await Page.getInitialProps(ctx);
+        return {
+          ...result,
+          loggedInUser,
+          currentUrl: ctx.pathname,
+          isLoggedIn: !!loggedInUser
+        };
+      }
       return {
-        ...pageProps,
         loggedInUser,
         currentUrl: ctx.pathname,
         isLoggedIn: !!loggedInUser

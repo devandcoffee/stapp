@@ -5,7 +5,12 @@ import Router from "next/router";
 
 import fetch from "isomorphic-unfetch";
 
-import { setToken, unsetToken } from "../utils/auth";
+import {
+  setToken,
+  unsetToken,
+  setLocalUser,
+  removeLocalUser
+} from "../utils/auth";
 import { logout, parseHash, getUserInfo } from "../utils/auth0";
 
 export default class extends React.Component {
@@ -29,10 +34,10 @@ export default class extends React.Component {
         }
 
         const body = {
-          external_id: userProfile.sub,
-          external_updated_at: userProfile.updated_at,
+          externalId: userProfile.sub,
+          externalUpdatedAt: userProfile.updated_at,
           email: userProfile.email,
-          is_verified: userProfile.email_verified,
+          isVerified: userProfile.email_verified,
           name: userProfile.name,
           nickname: userProfile.nickname,
           picture: userProfile.picture
@@ -50,10 +55,15 @@ export default class extends React.Component {
               throw Error(response.statusText);
             }
 
+            return response.json();
+          })
+          .then(user => {
+            setLocalUser(user.ID);
             Router.push("/");
           })
           .catch(() => {
             unsetToken();
+            removeLocalUser();
             logout();
             Router.push("/");
           });

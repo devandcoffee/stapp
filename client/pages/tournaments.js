@@ -1,7 +1,11 @@
 import React from "react";
-import fetch from "isomorphic-unfetch";
+import PropTypes from "prop-types";
 
-class Breed extends React.Component {
+import fetch from "isomorphic-unfetch";
+import { TournamentsList } from "../features/tournaments";
+import SecurePage from "../hocs/SecurePage";
+
+class Tournaments extends React.Component {
   static async getInitialProps() {
     const res = await fetch(`http://localhost:8080/api/tournaments`, {
       method: "GET",
@@ -14,14 +18,28 @@ class Breed extends React.Component {
       })
       .then(data => ({
         tournaments: data
-      }));
+      }))
+      .catch(err => {
+        console.error("there was an error fetching tournaments");
+      });
 
     return res;
   }
 
   render() {
-    return <pre>{JSON.stringify(this.props.tournaments, null, 2)}</pre>;
+    return <TournamentsList tournaments={this.props.tournaments} />;
   }
 }
 
-export default Breed;
+Tournaments.propTypes = {
+  tournaments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.id,
+      name: PropTypes.string,
+      description: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string
+    })
+  )
+};
+export default SecurePage(Tournaments);

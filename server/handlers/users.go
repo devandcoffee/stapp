@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -18,7 +17,6 @@ func GetAllUsers(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-
 	user := models.User{}
 
 	decoder := json.NewDecoder(r.Body)
@@ -107,8 +105,6 @@ func GetUserTournaments(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	tournaments := []models.Tournament{}
-
-	log.Println("Getting tournaments")
 
 	if err := db.Model(&user).Association("Tournaments").Find(&tournaments).Error; err != nil {
 		respondError(w, http.StatusNotFound, err.Error())

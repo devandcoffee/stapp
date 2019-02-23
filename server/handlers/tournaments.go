@@ -48,6 +48,7 @@ func UpdateTournament(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	id := vars["id"]
+
 	tournament := getTournamentOr404(db, id, w, r)
 	if tournament == nil {
 		return
@@ -58,11 +59,13 @@ func UpdateTournament(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	defer r.Body.Close()
 
 	if err := db.Save(&tournament).Error; err != nil {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	respondJSON(w, http.StatusOK, tournament)
 }
 
