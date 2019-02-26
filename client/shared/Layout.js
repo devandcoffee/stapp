@@ -5,7 +5,20 @@ import { withStyles } from "@material-ui/core/styles";
 
 import AppBar from "./AppBar";
 
+const globalStyles = {
+  margin: 0,
+  padding: 0
+};
+
 const styles = theme => ({
+  "@global": {
+    body: {
+      ...globalStyles
+    },
+    html: {
+      ...globalStyles
+    }
+  },
   layout: {
     width: "auto",
     marginLeft: theme.spacing.unit * 3,
