@@ -73,9 +73,10 @@ func DeleteTournament(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	id := vars["id"]
+
 	tournament := getTournamentOr404(db, id, w, r)
 
-	if tournament != nil {
+	if tournament == nil {
 		return
 	}
 
@@ -83,6 +84,7 @@ func DeleteTournament(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	respondJSON(w, http.StatusNoContent, nil)
 }
 

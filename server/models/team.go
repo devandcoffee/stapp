@@ -7,7 +7,7 @@ import (
 
 type Team struct {
 	gorm.Model
-	Name         string `json: name`
-	Info         string `json: info`
-	TournamentID uint   `json: tournamentId`
+	Name         string `json:"name"`
+	Info         string `json:"info"`
+	TournamentID uint   `json:"tournamentId"`
 }

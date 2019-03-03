@@ -129,6 +129,7 @@ func getUserByExternalId(db *gorm.DB, externalId string, w http.ResponseWriter, 
 	user := models.User{}
 
 	if err := db.Find(&user, "external_id = ?", externalId).Error; err != nil {
+		respondError(w, http.StatusNotFound, err.Error())
 		return nil
 	}
 	return &user
