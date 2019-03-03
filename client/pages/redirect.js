@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 import Router from "next/router";
 
-import fetch from "isomorphic-unfetch";
-
 import {
   setToken,
   unsetToken,
@@ -12,6 +10,7 @@ import {
   removeLocalUser
 } from "../utils/auth";
 import { logout, parseHash, getUserInfo } from "../utils/auth0";
+import { login } from "../services/auth";
 
 export default class extends React.Component {
   static propTypes = {
@@ -43,20 +42,7 @@ export default class extends React.Component {
           picture: userProfile.picture
         };
 
-        fetch("http://localhost:8080/api/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(body)
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw Error(response.statusText);
-            }
-
-            return response.json();
-          })
+        login(body)
           .then(user => {
             setLocalUser(user.ID);
             Router.push("/");

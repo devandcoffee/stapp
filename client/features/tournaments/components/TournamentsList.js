@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
@@ -45,7 +46,13 @@ const TournamentsList = ({
       <TableHeader
         columns={["name", "description", "start date", "end date"]}
       />
-      <TableBody data={tournaments} onDelete={onDelete} onEdit={onEdit} />
+      <TableBody
+        data={tournaments}
+        onDelete={onDelete}
+        onEdit={onEdit}
+        fields={["name", "description", "startDate", "endDate"]}
+        parsers={{ time: ["startDate", "endDate"] }}
+      />
     </Table>
   </Paper>
 );

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TournamentsList from "../components/TournamentsList";
 import Router from "next/router";
+import { deleteTournament } from "../../../services/tournaments";
 
 class TournamentsListContainer extends React.Component {
   handleCreateTournament = () => {
@@ -9,11 +10,13 @@ class TournamentsListContainer extends React.Component {
   };
 
   handleEditTournament = id => {
-    Router.push("/tournamentForm", { query: { id: 1 } });
+    Router.push(`/tournamentForm?id=${id}`);
   };
 
   handleDeleteTournament = id => {
-    console.log("deleting", id);
+    deleteTournament(id)
+      .then(() => Router.push("/tournaments"))
+      .catch(err => console.error(err));
   };
 
   render() {

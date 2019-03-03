@@ -7,6 +7,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Paper, Button } from "@material-ui/core";
 
 import { TextField } from "../../../shared/FormWrappers";
+import { getDateString } from "../../../utils/dates";
 
 const styles = theme => ({
   root: {
@@ -40,7 +41,11 @@ const TournamentForm = ({ classes, tournament, onSubmit, onCancel }) => (
   <Paper className={classes.root}>
     <Form
       onSubmit={onSubmit}
-      initialValues={tournament}
+      initialValues={{
+        ...tournament,
+        startDate: tournament ? getDateString(tournament.startDate) : undefined,
+        endDate: tournament ? getDateString(tournament.endDate) : undefined
+      }}
       validate={() => ({})}
       render={({ handleSubmit, submitting, pristine, values }) => (
         <form className={classes.form} onSubmit={handleSubmit}>

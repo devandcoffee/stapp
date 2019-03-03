@@ -1,7 +1,8 @@
 import React from "react";
 import { getUserFromServerCookie, getUserFromLocalCookie } from "../utils/auth";
+import WithError from "./WithError";
 
-export default Page =>
+const defaultPage = Page =>
   class Template extends React.Component {
     static async getInitialProps(ctx) {
       const loggedInUser = process.browser
@@ -27,3 +28,5 @@ export default Page =>
       return <Page {...this.props} />;
     }
   };
+
+export default Page => WithError(defaultPage(Page));

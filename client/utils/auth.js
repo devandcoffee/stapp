@@ -51,12 +51,31 @@ export const getUserFromLocalCookie = () => {
   return Cookie.getJSON("user");
 };
 
-export const setLocalUser = userId => {
-  localStorage.setItem("userId", userId);
+const getUserIdFromLocalCookie = () => Cookie.get("userId");
+const getUserIdFromServerCookie = cookie =>
+  cookie
+    .split(";")
+    .find(c => c.trim().startsWith("userId"))
+    .split("=")[1];
+
+export const getUserId = req => {
+  if (process.browser) {
+    return parseInt(getUserIdFromLocalCookie(), 10);
+  }
+
+  const serverCookie = req.headers.cookie;
+
+  if (!serverCookie) {
+    return undefined;
+  }
+
+  return parseInt(getUserIdFromServerCookie(serverCookie), 10);
 };
 
-export const getUserId = () => localStorage.getItem("userId");
+export const setLocalUser = userId => {
+  Cookie.set("userId", userId);
+};
 
 export const removeLocalUser = () => {
-  localStorage.removeItem("userId");
+  Cookie.remove("userId");
 };

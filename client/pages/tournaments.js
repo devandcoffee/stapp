@@ -1,28 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import fetch from "isomorphic-unfetch";
 import { TournamentsList } from "../features/tournaments";
 import SecurePage from "../hocs/SecurePage";
+import { getTournaments } from "../services/tournaments";
+import { getUserId } from "../utils/auth";
 
 class Tournaments extends React.Component {
-  static async getInitialProps() {
-    const res = await fetch(`http://localhost:8080/api/tournaments`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => {
-        return response.json();
-      })
+  static async getInitialProps(ctx) {
+    const userId = getUserId(ctx.req);
+
+    const res = await getTournaments(userId)
       .then(data => ({
         tournaments: data
       }))
-      .catch(err => {
-        console.error("there was an error fetching tournaments");
-      });
-
+      .catch(err => ({
+        statusCode: err.status,
+        message: err.statusText
+      }));
     return res;
   }
 

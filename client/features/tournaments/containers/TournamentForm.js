@@ -1,31 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
-import fetch from "isomorphic-unfetch";
+import Router from "next/router";
 
 import TournamentForm from "../components/TournamentForm";
+import { createTournament } from "../../../services/tournaments";
+import { getISOString } from "../../../utils/dates";
+import { getUserId } from "../../../utils/auth";
 
 class TournamentFormContainer extends React.Component {
   handleSubmit = formValues => {
     const body = {
       ...formValues,
-      userId: this.props.userId
+      startDate: getISOString(formValues.startDate),
+      endDate: getISOString(formValues.endDate),
+      userId: getUserId()
     };
-    // fetch(`http://localhost:8080/api/tournaments`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // }).then((response) => response.json())
-    // .then(data => {
-    //   console.log(data);
-    // })
-    // .catch(err => {
-    //   console.log("there was an error creating the tournament")
-    // })
+
+    const { tournament } = this.props;
+
+    if (!tournament) {
+      createTournament(body)
+        .then(() => {
+          Router.push("/tournaments");
+        })
+        .catch(err => {
+          console.error("there was an error creating the tournament", err);
+        });
+    }
   };
 
   handleCancel = () => {
-    console.log("canceling");
+    Router.push("/tournaments");
   };
 
   render() {
@@ -48,8 +53,7 @@ TournamentFormContainer.propTypes = {
     description: PropTypes.string,
     startDate: PropTypes.string,
     endDate: PropTypes.string
-  }),
-  userId: PropTypes.number
+  })
 };
 
 export default TournamentFormContainer;
