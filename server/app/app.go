@@ -49,6 +49,12 @@ func (a *App) setRouters() {
 	a.Put("/api/tournaments/{id}", a.UpdateTournament)
 	a.Delete("/api/tournaments/{id}", a.DeleteTournament)
 
+	a.Get("/api/teams", a.GetAllTeams)
+	a.Post("/api/teams", a.CreateTeam)
+	a.Get("/api/teams/{id}", a.GetTeam)
+	a.Put("/api/teams/{id}", a.UpdateTeam)
+	a.Delete("/api/teams/{id}", a.DeleteTeam)
+
 	a.Get("/api/users", a.GetAllUsers)
 	a.Post("/api/users", a.CreateUser)
 	a.Get("/api/users/{id}", a.GetUser)
@@ -89,17 +95,42 @@ func (a *App) CreateTournament(w http.ResponseWriter, r *http.Request) {
 
 // GetTournament Handler for getting a tournament
 func (a *App) GetTournament(w http.ResponseWriter, r *http.Request) {
-	handlers.CreateTournament(a.DB, w, r)
+	handlers.GetTournament(a.DB, w, r)
 }
 
 // UpdateTournament Handler for updating a tournament
 func (a *App) UpdateTournament(w http.ResponseWriter, r *http.Request) {
-	handlers.CreateTournament(a.DB, w, r)
+	handlers.UpdateTournament(a.DB, w, r)
 }
 
 // DeleteTournament Handler for deleting a tournament
 func (a *App) DeleteTournament(w http.ResponseWriter, r *http.Request) {
-	handlers.CreateTournament(a.DB, w, r)
+	handlers.DeleteTournament(a.DB, w, r)
+}
+
+// GetAllTeams for getting all teams
+func (a *App) GetAllTeams(w http.ResponseWriter, r *http.Request) {
+	handlers.GetAllTeams(a.DB, w, r)
+}
+
+// CreateTeam Handler for creating a team
+func (a *App) CreateTeam(w http.ResponseWriter, r *http.Request) {
+	handlers.CreateTeam(a.DB, w, r)
+}
+
+// GetTeam Handler for getting a team
+func (a *App) GetTeam(w http.ResponseWriter, r *http.Request) {
+	handlers.GetTeam(a.DB, w, r)
+}
+
+// UpdateTeam Handler for updating a team
+func (a *App) UpdateTeam(w http.ResponseWriter, r *http.Request) {
+	handlers.UpdateTeam(a.DB, w, r)
+}
+
+// DeleteTeam Handler for deleting a team
+func (a *App) DeleteTeam(w http.ResponseWriter, r *http.Request) {
+	handlers.DeleteTeam(a.DB, w, r)
 }
 
 // GetAllUsers for getting all tournaments
@@ -149,7 +180,6 @@ func (a *App) Run(host string) {
 
 		AllowedHeaders: []string{
 			"*", //or you can your header key values which you are using in your application
-
 		},
 	}).Handler(a.Router)
 
