@@ -48,12 +48,20 @@ func (a *App) setRouters() {
 	a.Get("/api/tournaments/{id}", a.GetTournament)
 	a.Put("/api/tournaments/{id}", a.UpdateTournament)
 	a.Delete("/api/tournaments/{id}", a.DeleteTournament)
+	a.Get("/api/tournaments/{id}/teams", a.GetTournamentTeams)
 
 	a.Get("/api/teams", a.GetAllTeams)
 	a.Post("/api/teams", a.CreateTeam)
 	a.Get("/api/teams/{id}", a.GetTeam)
 	a.Put("/api/teams/{id}", a.UpdateTeam)
 	a.Delete("/api/teams/{id}", a.DeleteTeam)
+	a.Get("/api/teams/{id}/teams", a.GetTeamPlayers)
+
+	a.Get("/api/players", a.GetAllPlayers)
+	a.Post("/api/players", a.CreatePlayer)
+	a.Get("/api/players/{id}", a.GetPlayer)
+	a.Put("/api/players/{id}", a.UpdatePlayer)
+	a.Delete("/api/players/{id}", a.DeletePlayer)
 
 	a.Get("/api/users", a.GetAllUsers)
 	a.Post("/api/users", a.CreateUser)
@@ -108,6 +116,11 @@ func (a *App) DeleteTournament(w http.ResponseWriter, r *http.Request) {
 	handlers.DeleteTournament(a.DB, w, r)
 }
 
+// GetTournamentTeams  Handler for getting tournament's teams
+func (a *App) GetTournamentTeams(w http.ResponseWriter, r *http.Request) {
+	handlers.GetTournamentTeams(a.DB, w, r)
+}
+
 // GetAllTeams for getting all teams
 func (a *App) GetAllTeams(w http.ResponseWriter, r *http.Request) {
 	handlers.GetAllTeams(a.DB, w, r)
@@ -130,6 +143,36 @@ func (a *App) UpdateTeam(w http.ResponseWriter, r *http.Request) {
 
 // DeleteTeam Handler for deleting a team
 func (a *App) DeleteTeam(w http.ResponseWriter, r *http.Request) {
+	handlers.DeleteTeam(a.DB, w, r)
+}
+
+// GetTeamPlayers  Handler for getting team's players
+func (a *App) GetTeamPlayers(w http.ResponseWriter, r *http.Request) {
+	handlers.GetTeamPlayers(a.DB, w, r)
+}
+
+// GetAllPlayers for getting all Players
+func (a *App) GetAllPlayers(w http.ResponseWriter, r *http.Request) {
+	handlers.GetAllPlayers(a.DB, w, r)
+}
+
+// CreatePlayer Handler for creating a Player
+func (a *App) CreatePlayer(w http.ResponseWriter, r *http.Request) {
+	handlers.CreatePlayer(a.DB, w, r)
+}
+
+// GetPlayer Handler for getting a Player
+func (a *App) GetPlayer(w http.ResponseWriter, r *http.Request) {
+	handlers.GetPlayer(a.DB, w, r)
+}
+
+// UpdatePlayer Handler for updating a Player
+func (a *App) UpdatePlayer(w http.ResponseWriter, r *http.Request) {
+	handlers.UpdatePlayer(a.DB, w, r)
+}
+
+// DeletePlayer Handler for deleting a Player
+func (a *App) DeletePlayer(w http.ResponseWriter, r *http.Request) {
 	handlers.DeleteTeam(a.DB, w, r)
 }
 
@@ -158,7 +201,7 @@ func (a *App) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	handlers.DeleteUser(a.DB, w, r)
 }
 
-// DeleteUser Handler for deleting a tournament
+// GetUserTournaments  Handler for getting user's tournaments
 func (a *App) GetUserTournaments(w http.ResponseWriter, r *http.Request) {
 	handlers.GetUserTournaments(a.DB, w, r)
 }

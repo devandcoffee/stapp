@@ -86,6 +86,26 @@ func DeleteTeam(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusNoContent, nil)
 }
 
+func GetTeamPlayers(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	tournament := getTournamentOr404(db, id, w, r)
+
+	if tournament == nil {
+		return
+	}
+
+	teams := []models.Team{}
+
+	if err := db.Model(&tournament).Association("Teams").Find(&teams).Error; err != nil {
+		respondError(w, http.StatusNotFound, err.Error())
+		return
+	}
+
+	respondJSON(w, http.StatusOK, teams)
+}
+
 func getTeamOr404(db *gorm.DB, id string, w http.ResponseWriter, r *http.Request) *models.Team {
 	team := models.Team{}
 	parsedID, _ := strconv.Atoi(id)
