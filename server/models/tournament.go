@@ -14,4 +14,5 @@ type Tournament struct {
 	StartDate   time.Time `json:"startDate"`
 	EndDate     time.Time `json:"endDate"`
 	UserID      uint      `json:"userId"`
+	Teams       []Team
 }

@@ -6,8 +6,6 @@ import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import TableHeader from "../../../shared/TableHeader";
 import TableBody from "../../../shared/TableBody";
@@ -29,62 +27,44 @@ const styles = theme => ({
   }
 });
 
-const TournamentsList = ({
-  classes,
-  tournaments,
-  onCreate,
-  onEdit,
-  onDelete,
-  onViewTeams
-}) => (
+const TeamsList = ({ classes, teams, onCreate, onEdit, onDelete }) => (
   <Paper className={classes.root}>
     <Button
       className={classes.btnCreate}
       variant="contained"
       onClick={onCreate}
     >
-      New Tournament
+      New Team
     </Button>
     <Table className={classes.table}>
-      <TableHeader
-        columns={["name", "description", "start date", "end date"]}
-      />
+      <TableHeader columns={["name", "info"]} />
       <TableBody
-        withActions
-        data={tournaments}
+        data={teams}
         onDelete={onDelete}
         onEdit={onEdit}
-        fields={["name", "description", "startDate", "endDate"]}
-        parsers={{ time: ["startDate", "endDate"] }}
-        renderCustomActions={id => (
-          <IconButton aria-label="Teams" onClick={() => onViewTeams(id)}>
-            <AssignmentIcon />
-          </IconButton>
-        )}
+        fields={["name", "info"]}
       />
     </Table>
   </Paper>
 );
 
-TournamentsList.defaultProps = {
-  tournaments: []
+TeamsList.defaultProps = {
+  teams: []
 };
 
-TournamentsList.propTypes = {
+TeamsList.propTypes = {
   classes: PropTypes.object.isRequired,
-  tournaments: PropTypes.arrayOf(
+  teams: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.id,
+      id: PropTypes.number,
       name: PropTypes.string,
-      description: PropTypes.string,
-      startDate: PropTypes.string,
-      endDate: PropTypes.string
+      info: PropTypes.string,
+      tournamentId: PropTypes.number
     })
   ),
   onCreate: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onViewTeams: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(TournamentsList);
+export default withStyles(styles)(TeamsList);

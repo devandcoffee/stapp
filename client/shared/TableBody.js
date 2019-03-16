@@ -17,7 +17,8 @@ const CustomTableBody = ({
   onEdit,
   onDelete,
   fields,
-  parsers
+  parsers,
+  renderCustomActions
 }) => (
   <TableBody>
     {data.map(d => (
@@ -37,6 +38,7 @@ const CustomTableBody = ({
             <IconButton aria-label="Delete" onClick={() => onDelete(d.ID)}>
               <DeleteIcon />
             </IconButton>
+            {renderCustomActions(d.ID)}
           </TableCell>
         ) : null}
       </TableRow>
@@ -51,7 +53,8 @@ CustomTableBody.defaultProps = {
   parsers: {
     time: []
   },
-  fields: []
+  fields: [],
+  renderCustomActions: () => null
 };
 
 CustomTableBody.propTypes = {
@@ -63,7 +66,8 @@ CustomTableBody.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.string),
   parsers: PropTypes.shape({
     time: PropTypes.arrayOf(PropTypes.string)
-  })
+  }),
+  renderCustomActions: PropTypes.func
 };
 
 export default CustomTableBody;

@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import Router from "next/router";
 
 import TournamentForm from "../components/TournamentForm";
-import { createTournament } from "../../../services/tournaments";
+import {
+  createTournament,
+  updateTournament
+} from "../../../services/tournaments";
 import { getISOString } from "../../../utils/dates";
 import { getUserId } from "../../../utils/auth";
 
@@ -22,6 +25,16 @@ class TournamentFormContainer extends React.Component {
       createTournament(body)
         .then(() => {
           Router.push("/tournaments");
+        })
+        .catch(err => {
+          console.error("there was an error creating the tournament", err);
+        });
+    } else {
+      const id = body.ID;
+
+      updateTournament(id, { ...body, ID: undefined })
+        .then(() => {
+          Router.push(`/tournaments`);
         })
         .catch(err => {
           console.error("there was an error creating the tournament", err);

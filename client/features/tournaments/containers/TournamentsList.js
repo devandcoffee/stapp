@@ -19,6 +19,10 @@ class TournamentsListContainer extends React.Component {
       .catch(err => console.error(err));
   };
 
+  handleViewTeams = id => {
+    Router.push(`/teams?tournamentId=${id}`);
+  };
+
   render() {
     return (
       <TournamentsList
@@ -26,6 +30,7 @@ class TournamentsListContainer extends React.Component {
         onCreate={this.handleCreateTournament}
         onEdit={this.handleEditTournament}
         onDelete={this.handleDeleteTournament}
+        onViewTeams={this.handleViewTeams}
       />
     );
   }

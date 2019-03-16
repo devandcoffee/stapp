@@ -75,7 +75,7 @@ func DeleteTeam(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 	team := getTeamOr404(db, id, w, r)
 
-	if team != nil {
+	if team == nil {
 		return
 	}
 
@@ -83,7 +83,8 @@ func DeleteTeam(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	respondJSON(w, http.StatusNoContent, nil)
+
+	respondJSON(w, http.StatusNoContent)
 }
 
 func GetTeamPlayers(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
