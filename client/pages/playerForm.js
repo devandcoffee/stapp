@@ -14,13 +14,15 @@ class PlayerFormPage extends React.Component {
         statusCode: err.status,
         message: err.statusText
       }));
-    return { ...res, teamId: query.teamId };
+    return { ...res, teamId: query.teamId, tournamentId: query.tournamentId };
   }
 
   render() {
-    const { player, teamId } = this.props;
+    const { player, teamId, tournamentId } = this.props;
 
-    return <PlayerForm player={player} teamId={teamId} />;
+    return (
+      <PlayerForm player={player} teamId={teamId} tournamentId={tournamentId} />
+    );
   }
 }
 

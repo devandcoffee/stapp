@@ -17,12 +17,16 @@ class Players extends React.Component {
         statusCode: err.status,
         message: err.statusText
       }));
-    return { ...res, teamId };
+    return { ...res, teamId, tournamentId: query.tournamentId };
   }
 
   render() {
     return (
-      <PlayersList players={this.props.players} teamId={this.props.teamId} />
+      <PlayersList
+        players={this.props.players}
+        teamId={this.props.teamId}
+        tournamentId={this.props.tournamentId}
+      />
     );
   }
 }

@@ -6,20 +6,29 @@ import { deletePlayer } from "../../../services/players";
 
 class PlayersListContainer extends React.Component {
   handleCreatePlayer = () => {
-    const { teamId } = this.props;
-    Router.push(`/playerForm?teamId=${teamId}`);
+    const { teamId, tournamentId } = this.props;
+    Router.push(`/playerForm?teamId=${teamId}&tournamentId=${tournamentId}`);
   };
 
   handleEditPlayer = id => {
-    const { teamId } = this.props;
-    Router.push(`/playerForm?id=${id}&teamId=${teamId}`);
+    const { teamId, tournamentId } = this.props;
+    Router.push(
+      `/playerForm?id=${id}&teamId=${teamId}&tournamentId=${tournamentId}`
+    );
   };
 
   handleDeletePlayer = id => {
-    const { teamId } = this.props;
+    const { teamId, tournamentId } = this.props;
     deletePlayer(id)
-      .then(() => Router.push(`/players?teamId=${teamId}`))
+      .then(() =>
+        Router.push(`/players?teamId=${teamId}&tournamentId=${tournamentId}`)
+      )
       .catch(err => console.error(err));
+  };
+
+  handleGoBack = () => {
+    const { tournamentId } = this.props;
+    Router.push(`/teams?tournamentId=${tournamentId}`);
   };
 
   render() {
@@ -29,6 +38,7 @@ class PlayersListContainer extends React.Component {
         onCreate={this.handleCreatePlayer}
         onEdit={this.handleEditPlayer}
         onDelete={this.handleDeletePlayer}
+        onGoBack={this.handleGoBack}
       />
     );
   }
@@ -48,7 +58,8 @@ PlayersListContainer.propTypes = {
       teamId: PropTypes.number
     })
   ),
-  teamId: PropTypes.string.isRequired
+  teamId: PropTypes.string.isRequired,
+  tournamentId: PropTypes.string.isRequired
 };
 
 export default PlayersListContainer;

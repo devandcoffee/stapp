@@ -23,7 +23,12 @@ class TeamsListContainer extends React.Component {
   };
 
   handleViewPlayers = id => {
-    Router.push(`/players?teamId=${id}`);
+    const { tournamentId } = this.props;
+    Router.push(`/players?teamId=${id}&tournamentId=${tournamentId}`);
+  };
+
+  handleGoBack = () => {
+    Router.push(`/tournaments`);
   };
 
   render() {
@@ -34,6 +39,7 @@ class TeamsListContainer extends React.Component {
         onEdit={this.handleEditTeam}
         onDelete={this.handleDeleteTeam}
         onViewPlayers={this.handleViewPlayers}
+        onGoBack={this.handleGoBack}
       />
     );
   }

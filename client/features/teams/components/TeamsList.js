@@ -24,6 +24,10 @@ const styles = theme => ({
     width: "25%",
     alignSelf: "right"
   },
+  btnBack: {
+    width: "25%",
+    alignSelf: "left"
+  },
   table: {
     minWidth: 700
   }
@@ -35,7 +39,8 @@ const TeamsList = ({
   onCreate,
   onEdit,
   onDelete,
-  onViewPlayers
+  onViewPlayers,
+  onGoBack
 }) => (
   <Paper className={classes.root}>
     <Button
@@ -44,6 +49,9 @@ const TeamsList = ({
       onClick={onCreate}
     >
       New Team
+    </Button>
+    <Button className={classes.btnBack} variant="contained" onClick={onGoBack}>
+      My Tournaments
     </Button>
     <Table className={classes.table}>
       <TableHeader columns={["name", "info"]} />
@@ -79,7 +87,8 @@ TeamsList.propTypes = {
   onCreate: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onViewPlayers: PropTypes.func.isRequired
+  onViewPlayers: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(TeamsList);

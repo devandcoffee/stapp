@@ -9,7 +9,7 @@ import { createPlayer, updatePlayer } from "../../../services/players";
 
 class PlayerFormContainer extends React.Component {
   handleSubmit = formValues => {
-    const { player, teamId } = this.props;
+    const { player, teamId, tournamentId } = this.props;
 
     const body = {
       ...formValues,
@@ -20,7 +20,7 @@ class PlayerFormContainer extends React.Component {
     if (!player) {
       createPlayer(body)
         .then(() => {
-          Router.push(`/players?teamId=${teamId}`);
+          Router.push(`/players?teamId=${teamId}&tournamentId=${tournamentId}`);
         })
         .catch(err => {
           console.error("there was an error creating the player", err);
@@ -30,7 +30,7 @@ class PlayerFormContainer extends React.Component {
 
       updatePlayer(id, { ...body, ID: undefined })
         .then(() => {
-          Router.push(`/players?teamId=${teamId}`);
+          Router.push(`/players?teamId=${teamId}&tournamentId=${tournamentId}`);
         })
         .catch(err => {
           console.error("there was an error creating the player", err);
@@ -39,12 +39,14 @@ class PlayerFormContainer extends React.Component {
   };
 
   handleCancel = () => {
-    const { teamId } = this.props;
-    Router.push(`/players?teamId=${teamId}`);
+    const { teamId, tournamentId } = this.props;
+    Router.push(`/players?teamId=${teamId}&tournamentId=${tournamentId}`);
   };
 
   render() {
     const { player } = this.props;
+
+    console.log(this.props);
 
     return (
       <PlayerForm
