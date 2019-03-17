@@ -55,7 +55,7 @@ func (a *App) setRouters() {
 	a.Get("/api/teams/{id}", a.GetTeam)
 	a.Put("/api/teams/{id}", a.UpdateTeam)
 	a.Delete("/api/teams/{id}", a.DeleteTeam)
-	a.Get("/api/teams/{id}/teams", a.GetTeamPlayers)
+	a.Get("/api/teams/{id}/players", a.GetTeamPlayers)
 
 	a.Get("/api/players", a.GetAllPlayers)
 	a.Post("/api/players", a.CreatePlayer)
@@ -173,7 +173,7 @@ func (a *App) UpdatePlayer(w http.ResponseWriter, r *http.Request) {
 
 // DeletePlayer Handler for deleting a Player
 func (a *App) DeletePlayer(w http.ResponseWriter, r *http.Request) {
-	handlers.DeleteTeam(a.DB, w, r)
+	handlers.DeletePlayer(a.DB, w, r)
 }
 
 // GetAllUsers for getting all tournaments

@@ -6,8 +6,6 @@ import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 import TableHeader from "../../../shared/TableHeader";
 import TableBody from "../../../shared/TableBody";
@@ -29,57 +27,46 @@ const styles = theme => ({
   }
 });
 
-const TeamsList = ({
-  classes,
-  teams,
-  onCreate,
-  onEdit,
-  onDelete,
-  onViewPlayers
-}) => (
+const PlayersList = ({ classes, players, onCreate, onEdit, onDelete }) => (
   <Paper className={classes.root}>
     <Button
       className={classes.btnCreate}
       variant="contained"
       onClick={onCreate}
     >
-      New Team
+      New Player
     </Button>
     <Table className={classes.table}>
-      <TableHeader columns={["name", "info"]} />
+      <TableHeader columns={["name", "address", "birthday"]} />
       <TableBody
-        data={teams}
+        data={players}
         onDelete={onDelete}
         onEdit={onEdit}
-        fields={["name", "info"]}
-        renderCustomActions={id => (
-          <IconButton aria-label="Teams" onClick={() => onViewPlayers(id)}>
-            <PersonAddIcon />
-          </IconButton>
-        )}
+        parsers={{ time: ["birthday"] }}
+        fields={["name", "address", "birthday"]}
       />
     </Table>
   </Paper>
 );
 
-TeamsList.defaultProps = {
-  teams: []
+PlayersList.defaultProps = {
+  players: []
 };
 
-TeamsList.propTypes = {
+PlayersList.propTypes = {
   classes: PropTypes.object.isRequired,
-  teams: PropTypes.arrayOf(
+  players: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      info: PropTypes.string,
-      tournamentId: PropTypes.number
+      address: PropTypes.string,
+      birthday: PropTypes.string,
+      teamId: PropTypes.number
     })
   ),
   onCreate: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onViewPlayers: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(TeamsList);
+export default withStyles(styles)(PlayersList);

@@ -75,7 +75,7 @@ func DeletePlayer(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 	player := getPlayerOr404(db, id, w, r)
 
-	if player != nil {
+	if player == nil {
 		return
 	}
 

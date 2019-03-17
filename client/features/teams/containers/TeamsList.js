@@ -22,6 +22,10 @@ class TeamsListContainer extends React.Component {
       .catch(err => console.error(err));
   };
 
+  handleViewPlayers = id => {
+    Router.push(`/players?teamId=${id}`);
+  };
+
   render() {
     return (
       <TeamsList
@@ -29,6 +33,7 @@ class TeamsListContainer extends React.Component {
         onCreate={this.handleCreateTeam}
         onEdit={this.handleEditTeam}
         onDelete={this.handleDeleteTeam}
+        onViewPlayers={this.handleViewPlayers}
       />
     );
   }

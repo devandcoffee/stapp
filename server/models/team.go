@@ -10,4 +10,5 @@ type Team struct {
 	Name         string `json:"name"`
 	Info         string `json:"info"`
 	TournamentID uint   `json:"tournamentId"`
+	Players      []Player
 }
